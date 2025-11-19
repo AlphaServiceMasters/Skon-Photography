@@ -47,11 +47,16 @@ body, html {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 120%;
-  height: 120%;
+  /* center the video */
+  transform: translate(-50%, -50%);
+  /* let object-fit handle cropping; ensure it always fills the container */
   object-fit: cover;
   object-position: center center;
-  transform: none;
+  /* keep a safe min size so video covers area on different aspect ratios */
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
   filter: brightness(0.92) contrast(1.03) saturate(1.06);
   transition: filter .45s ease, transform .45s ease;
   z-index: 1; /* behind overlay & content */
