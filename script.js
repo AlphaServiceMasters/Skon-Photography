@@ -247,6 +247,27 @@ document.addEventListener('DOMContentLoaded', function () {
   (function ensureBackgroundVideo() {
     const vid = document.getElementById('bgVideo');
     if (!vid) return;
+
+    // --- Added: fallback function so calls to ensureVideoCoverFallback won't fail ---
+    function ensureVideoCoverFallback() {
+      try {
+        // enforce absolute centering and cover behaviour (defensive, in case CSS isn't enough)
+        vid.style.position = 'absolute';
+        vid.style.top = '50%';
+        vid.style.left = '50%';
+        vid.style.transform = 'translate(-50%, -50%)';
+        vid.style.objectFit = 'cover';
+        vid.style.objectPosition = 'center center';
+        vid.style.width = 'auto';
+        vid.style.height = 'auto';
+        vid.style.minWidth = '100%';
+        vid.style.minHeight = '100%';
+      } catch (e) {
+        // silently ignore if styling fails (older browsers)
+      }
+    }
+    // ------------------------------------------------------------------------------
+
     const candidates = ['./assets/bg.mp4', './bg.mp4', './assets/videos/bg.mp4'];
     let idx = 0;
 
