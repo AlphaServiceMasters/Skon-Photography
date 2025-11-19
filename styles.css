@@ -1,374 +1,372 @@
-// Initialize UI after DOM ready
-document.addEventListener('DOMContentLoaded', function () {
-  // Initialize AOS
-  if (window.AOS) AOS.init({ once: true, duration: 900 });
+/* ...existing code moved from index.html inline <style> ... */
+body, html {
+  margin: 0; padding: 0;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(180deg, #050b16 0%, #050f1c 100%);
+  color: #e6f7ff;
+  scroll-behavior: smooth;
+}
 
-  // Form submission -> WhatsApp
-  const bookingForm = document.getElementById('bookingForm');
-  if (bookingForm) {
-    bookingForm.addEventListener('submit', function (e) {
-      e.preventDefault();
-      const name = (document.getElementById('name') || {}).value?.trim() || '';
-      const phone = (document.getElementById('phone') || {}).value?.trim() || '';
-      let service = (document.getElementById('service') || {}).value || '';
-      const serviceOther = (document.getElementById('serviceOther') || {}).value?.trim() || '';
-      const notes = (document.getElementById('notes') || {}).value?.trim() || '';
+/* Logo sizing */
+.navbar-brand img {
+  height: 44px;
+  width: auto;
+  display: inline-block;
+}
+@media(max-width: 480px) {
+  .navbar-brand img { height: 34px; }
+}
 
-      if (!name || !phone || !service) {
-        alert('Please fill in all required fields!');
-        return false;
-      }
-      if (service === 'Other') {
-        if (!serviceOther) {
-          alert('Please specify the event type when selecting "Other".');
-          return false;
-        }
-        service = serviceOther;
-      }
+/* Navbar */
+.navbar {
+  background: rgba(2, 10, 20, 0.9) !important;
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(90, 200, 255, 0.12);
+}
+.navbar-brand {
+  font-weight: 700;
+  letter-spacing: 0.08rem;
+  text-transform: uppercase;
+  color: #e9fcff !important;
+}
+.navbar-nav .nav-link {
+  color: #c7eaff !important;
+  font-size: 0.95rem;
+}
+.navbar-nav .nav-link:hover {
+  color: #7fe3ff !important;
+}
 
-      let message = `Hello Skon Photography,\nMy name is ${name}. I would like to book a ${service} session.\nMy phone number is ${phone}.`;
-      if (notes) message += `\nAdditional notes: ${notes}`;
+/* Hero with video */
+.hero {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+}
+.hero video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 120%;
+  height: 120%;
+  object-fit: cover;
+  object-position: center center;
+  transform: none;
+  filter: brightness(0.92) contrast(1.03) saturate(1.06);
+  transition: filter .45s ease, transform .45s ease;
+  z-index: 1; /* behind overlay & content */
+  display: block;
+  pointer-events: none;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+.hero .overlay {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: linear-gradient(180deg, rgba(4,24,34,0.24), rgba(6,30,45,0.28));
+  mix-blend-mode: normal;
+  backdrop-filter: saturate(1.02) contrast(0.98);
+  pointer-events: none;
+  z-index: 2;
+}
+.hero-content {
+  position: relative;
+  z-index: 3;
+  text-align: center;
+  top: 40%;
+  color: #e6f7ff;
+  text-shadow: 0 8px 26px rgba(2,10,20,0.45);
+  padding: 0 15px;
+}
+.hero h1 {
+  font-size: 3.6rem;
+  font-weight: 800;
+  color: #d7fbff;
+  letter-spacing: 0.12rem;
+  text-transform: uppercase;
+}
+.hero h1 span {
+  color: #57e0ff;
+}
+.hero p {
+  max-width: 580px;
+  margin: 15px auto 0;
+  font-size: 1rem;
+  color: #d0e9ff;
+}
+.hero-cta .btn-main {
+  border-radius: 50px;
+  padding: 10px 26px;
+  font-weight: 500;
+  margin: 0 5px;
+}
 
-      const whatsappNumber = "+216XXXXXXXX"; // Replace with actual number, digits only
-      const digits = whatsappNumber.replace(/\D/g, '');
-      const encoded = encodeURIComponent(message);
-      window.open(`https://wa.me/${digits}?text=${encoded}`, '_blank');
-      return false;
-    });
+/* Section titles */
+.section-title {
+  text-transform: uppercase;
+  letter-spacing: 0.16rem;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #7fe3ff;
+}
+.section-heading {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #eafaff;
+}
+
+/* Services */
+.service-card {
+  border-radius: 16px;
+  background: linear-gradient(180deg, rgba(6,20,30,0.8), rgba(8,28,38,0.92));
+  padding: 25px;
+  transition: 0.35s;
+  border: 1px solid rgba(30,90,110,0.18);
+  box-shadow: 0 6px 20px rgba(2,12,20,0.55);
+  height: 100%;
+}
+.service-card:hover {
+  transform: translateY(-6px);
+  background: linear-gradient(180deg, rgba(9,36,48,0.95), rgba(6,28,42,1));
+  border-color: rgba(100,220,255,0.3);
+}
+.service-icon {
+  font-size: 2.2rem;
+  color: #7fe3ff;
+  margin-bottom: 12px;
+}
+.badge-tag {
+  font-size: 0.75rem;
+  border-radius: 50px;
+  background: rgba(90,220,255,0.12);
+  border: 1px solid rgba(120,220,255,0.45);
+  color: #9be8ff;
+  padding: 3px 10px;
+  margin-right: 5px;
+}
+
+/* Gallery */
+.gallery img {
+  width: 100%;
+  border-radius: 14px;
+  transition: 0.4s;
+  box-shadow: 0 10px 30px rgba(3,12,20,0.7);
+  border: 1px solid rgba(255,255,255,0.04);
+  cursor: pointer;
+}
+.gallery img:hover {
+  transform: scale(1.04) translateY(-4px);
+  opacity: 0.96;
+  filter: saturate(1.08) contrast(1.03);
+}
+
+/* Parallax */
+.parallax {
+  background-image: url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=1400&auto=format&fit=crop&q=80');
+  height: 55vh;
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+  filter: brightness(0.75) contrast(1.04) saturate(1.05);
+  position: relative;
+}
+.parallax-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top, rgba(5,25,40,0.2), rgba(2,6,12,0.9));
+  z-index: 1;
+}
+.parallax-inner {
+  position: relative;
+  z-index: 2;
+  color: #e9f9ff;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  flex-direction: column;
+  padding: 0 15px;
+}
+
+/* About */
+.about-box {
+  background: radial-gradient(circle at top left, rgba(90,220,255,0.08), rgba(3,10,18,0.95));
+  border-radius: 18px;
+  padding: 35px 25px;
+  border: 1px solid rgba(90, 200, 255, 0.16);
+  box-shadow: 0 10px 30px rgba(2,8,16,0.7);
+}
+.about-highlight {
+  color: #7fe3ff;
+  font-weight: 600;
+}
+
+/* Testimonials */
+.swiper {
+  max-width: 760px;
+  margin: 18px auto;
+  padding: 6px 8px 24px;
+}
+.swiper .swiper-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.testimonials {
+  max-width: 100%;
+  margin: 0;
+}
+.swiper-button-prev, .swiper-button-next {
+  color: #57e0ff;
+  filter: drop-shadow(0 4px 14px rgba(6,160,255,0.12));
+}
+.swiper-pagination-bullet {
+  background: rgba(120,220,255,0.55);
+}
+
+/* Contact */
+.contact-box {
+  background: linear-gradient(180deg, rgba(6,18,28,0.8), rgba(8,26,36,0.95));
+  padding: 30px;
+  border-radius: 18px;
+  border: 1px solid rgba(30,90,110,0.2);
+  box-shadow: 0 12px 34px rgba(2,8,14,0.7);
+  color: #b1d8fdb9;
+  font-weight: 400;
+}
+.contact-box label {
+  color: #9bdcff;
+  font-weight: 600;
+  margin-top: 15px;
+  display: block;
+}
+.contact-box input, 
+.contact-box textarea, 
+.contact-box select {
+  width: 100%;
+  background: #0a1c2e;
+  border: none;
+  padding: 12px 14px;
+  margin-top: 6px;
+  border-radius: 10px;
+  font-size: 1rem;
+  color: #a9d6ffdb;
+  outline: none;
+  transition: background-color 0.3s ease;
+  font-weight: 400;
+  resize: vertical;
+}
+.contact-box input:focus, 
+.contact-box textarea:focus, 
+.contact-box select:focus {
+  background-color: #0656b0dd;
+  color: #f0f8ff;
+}
+.contact-box button {
+  margin-top: 25px;
+  background-color: #07a9ff;
+  color: #03101e;
+  font-weight: 700;
+  border: none;
+  padding: 12px 0;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  width: 100%;
+  cursor: pointer;
+  box-shadow: 0 0 25px #3abfff;
+  transition: background-color 0.3s ease;
+}
+.contact-box button:hover {
+  background-color: #0491d6;
+  color: #e0f7ff;
+  box-shadow: 0 0 40px #00bfffcc;
+}
+
+/* Footer */
+footer {
+  margin-top: 60px;
+  background: #000814;
+  color: #bfefffcc;
+  font-size: 0.85rem;
+  text-align: center;
+  padding: 18px 10px;
+}
+.social-links a {
+  color: #42a9ffcc;
+  font-size: 1.6rem;
+  margin: 0 14px;
+  transition: color 0.3s ease;
+  display: inline-block;
+}
+.social-links a:hover {
+  color: #06b1f9;
+}
+
+/* Back to top */
+#backToTopBtn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #06a9f9;
+  color: #ffffff;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 50%;
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow: 0 0 12px #06a9f9bb;
+  display: none;
+  z-index: 1100;
+  transition: background-color 0.3s ease;
+}
+#backToTopBtn:hover {
+  background-color: #0482c2;
+}
+
+/* Responsive */
+@media(max-width: 768px) {
+  .hero-content h1 {
+    font-size: 2.8rem;
   }
-
-  // Ensure gallery images are visible and use lazy loading; provide inline SVG fallback if remote fails
-  (function ensureGalleryImages() {
-    const placeholder = "data:image/svg+xml;utf8," +
-      encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 140">' +
-        '<rect width="100%" height="100%" fill="#05101a"/>' +
-        '<g fill="#06a9ff" opacity="0.95"><rect x="18" y="18" width="204" height="104" rx="12"/></g>' +
-        '<text x="50%" y="52%" dominant-baseline="middle" text-anchor="middle" fill="#00121a" font-family="Poppins, Arial, sans-serif" font-size="18">Image</text>' +
-      '</svg>');
-
-    const exts = ['jpg','jpeg','png','webp'];
-
-    // build a set of candidate URLs from an input path (adds common folders and extensions)
-    function buildCandidates(path) {
-      const set = new Set();
-      if (!path) return set;
-      const clean = path.replace(/^\.\//,'').replace(/^\/+/,'')
-      // push original variations
-      set.add(path);
-      set.add('./' + clean);
-      set.add('/' + clean);
-
-      // derive name and dir
-      const parts = clean.split('/');
-      const filename = parts.pop();
-      const dir = parts.join('/');
-      const m = filename.match(/^(.+?)(?:\.[a-z0-9]+)?$/i);
-      const name = m ? m[1] : filename;
-
-      exts.forEach(ext => {
-        const candidate = (dir ? `${dir}/` : '') + `${name}.${ext}`;
-        set.add(candidate);
-        set.add('./' + candidate);
-        set.add('/' + candidate);
-        set.add('./assets/' + `${name}.${ext}`);
-        set.add('./assets/images/' + `${name}.${ext}`);
-        set.add('./assets/img/' + `${name}.${ext}`);
-      });
-
-      // also try lowercase filename variants
-      set.forEach(s => set.add(s.toLowerCase()));
-      return set;
-    }
-
-    document.querySelectorAll('.gallery').forEach(g => {
-      g.querySelectorAll('a').forEach(a => {
-        const img = a.querySelector('img');
-
-        if (!img) {
-          if (!a.getAttribute('href')) a.setAttribute('href', placeholder);
-          return;
-        }
-
-        if (!img.hasAttribute('loading')) img.setAttribute('loading', 'lazy');
-        if (!img.getAttribute('alt')) img.setAttribute('alt', 'Portfolio image');
-
-        const origSrc = (img.getAttribute('src') || '').trim();
-        const origHref = (a.getAttribute('href') || '').trim();
-
-        // create ordered array of candidates: prefer original src/href first
-        const ordered = [];
-        const addSet = (s) => s.forEach(u => { if (!ordered.includes(u)) ordered.push(u); });
-
-        if (origSrc) ordered.push(origSrc);
-        if (origHref && !ordered.includes(origHref)) ordered.push(origHref);
-
-        addSet(buildCandidates(origSrc));
-        addSet(buildCandidates(origHref));
-
-        // final fallback candidates: placeholder only after trying others
-        const tried = [];
-        let loaded = false;
-        let idx = 0;
-
-        function tryNext() {
-          if (loaded || idx >= ordered.length) {
-            if (!loaded) {
-              img.src = placeholder;
-              a.href = placeholder;
-              console.warn('All gallery candidates failed for element; applied placeholder. Tried:', tried);
-            }
-            return;
-          }
-
-          const candidate = ordered[idx++];
-          if (!candidate) return tryNext();
-          tried.push(candidate);
-
-          const tester = new Image();
-          tester.onload = function () {
-            if (loaded) return;
-            loaded = true;
-            // set image and anchor to the working file
-            img.src = candidate;
-            a.href = candidate;
-            console.info('Gallery image loaded from candidate:', candidate);
-          };
-          tester.onerror = function () {
-            // try next candidate
-            setTimeout(tryNext, 0);
-          };
-          // start load attempt (browser will attempt to fetch)
-          tester.src = candidate;
-        }
-
-        // start attempts (do not block UI)
-        tryNext();
-
-        // keep an onerror handler as last resort
-        img.onerror = function () {
-          if (this.src !== placeholder) {
-            console.warn('Final <img> error for', this.src, '- applying placeholder.');
-            this.src = placeholder;
-            a.href = placeholder;
-          }
-        };
-      });
-    });
-  })();
-
-  // Verify local logo exists and refresh favicon + navbar logo to bypass cache if needed
-  (async function verifyAndRefreshLogo() {
-    const logoPath = './assets/logo.png';
-    const logoImg = document.getElementById('siteLogo');
-    const updateFavicon = (href) => {
-      const rels = ['icon', 'shortcut icon', 'apple-touch-icon'];
-      rels.forEach(r => {
-        let link = document.querySelector(`link[rel="${r}"]`);
-        if (!link) {
-          link = document.createElement('link');
-          link.rel = r;
-          document.head.appendChild(link);
-        }
-        // set href (no cache-buster on file://)
-        try {
-          if (location && location.protocol && location.protocol.startsWith('http')) {
-            link.href = `${href}?cb=${Date.now()}`;
-          } else {
-            link.href = href;
-          }
-        } catch (_) {
-          link.href = href;
-        }
-      });
-    };
-
-    // Use Image() loader rather than fetch HEAD (safer for file:// and avoids CORS/HEAD issues)
-    await new Promise(resolve => {
-      try {
-        const img = new Image();
-        img.onload = function () {
-          try {
-            const href = (location && location.protocol && location.protocol.startsWith('http')) ? `${logoPath}` : logoPath;
-            if (logoImg) {
-              // update navbar logo if present
-              if (location && location.protocol && location.protocol.startsWith('http')) {
-                logoImg.src = `${logoPath}?cb=${Date.now()}`;
-              } else {
-                logoImg.src = logoPath;
-              }
-            }
-            updateFavicon(logoPath);
-            console.info('logo.png loaded and favicon updated.');
-          } catch (e) { /* ignore */ }
-          resolve();
-        };
-        img.onerror = function (err) {
-          console.warn('Could not load ./assets/logo.png. Please ensure the file exists and is accessible.', err || '');
-          resolve();
-        };
-        img.src = logoPath;
-      } catch (err) {
-        console.warn('Logo check failed with exception', err);
-        resolve();
-      }
-    });
-
-    // Finally initialize GLightbox now (after gallery images ensured)
-    try {
-      if (typeof GLightbox === 'function') window._glightbox = GLightbox({ selector: '.glightbox' });
-    } catch (e) { /* ignore */ }
-
-    // initialize Typed and Swiper if present (safe re-init)
-    if (window.Typed) {
-      try {
-        new Typed('#typed-words', {
-          strings: ['Skandar','Skon Photography','Skandar Wanan'],
-          typeSpeed: 60, backSpeed: 40, backDelay: 2000, loop: true, showCursor: true, cursorChar: '|'
-        });
-      } catch (e) {}
-    }
-    if (window.Swiper) {
-      try {
-        new Swiper('.swiper', {
-          loop: true,
-          autoplay: { delay: 4500, disableOnInteraction: false },
-          pagination: { el: '.swiper-pagination', clickable: true },
-          navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
-          a11y: { enabled: true },
-          slidesPerView: 1,
-          spaceBetween: 10,
-          speed: 700
-        });
-      } catch (e) {}
-    }
-  })();
-
-  // Try loading a local background video from common candidate paths and ensure play
-  (function ensureBackgroundVideo() {
-    const vid = document.getElementById('bgVideo');
-    if (!vid) return;
-    const candidates = ['./assets/bg.mp4', './bg.mp4', './assets/videos/bg.mp4'];
-    let idx = 0;
-    let fallbackApplied = false;
-    let resizeHandler = null;
-
-    function ensureVideoCoverFallback() {
-      // If object-fit works, nothing to do
-      try {
-        const cs = getComputedStyle(vid);
-        if (cs && cs.objectFit && cs.objectFit !== 'none') {
-          // object-fit supported and set; clear any JS fallback
-          if (fallbackApplied) {
-            vid.style.width = '';
-            vid.style.height = '';
-            vid.style.top = '0';
-            vid.style.left = '0';
-            vid.style.transform = 'none';
-            vid.style.objectFit = 'cover';
-            fallbackApplied = false;
-            if (resizeHandler) { window.removeEventListener('resize', resizeHandler); resizeHandler = null; }
-          }
-          return;
-        }
-      } catch (e) {
-        // ignore and try fallback
-      }
-
-      // JS fallback: compute scale so the video covers the container
-      function applyFallback() {
-        const container = vid.parentElement || vid;
-        const cw = container.clientWidth || window.innerWidth;
-        const ch = container.clientHeight || window.innerHeight;
-        const vw = vid.videoWidth || cw;
-        const vh = vid.videoHeight || ch;
-        if (!vw || !vh) return;
-
-        const scale = Math.max(cw / vw, ch / vh);
-        // place natural-size video centered and scaled
-        vid.style.objectFit = 'none';
-        vid.style.width = vw + 'px';
-        vid.style.height = vh + 'px';
-        vid.style.top = '50%';
-        vid.style.left = '50%';
-        vid.style.transform = `translate(-50%, -50%) scale(${scale})`;
-        vid.style.transformOrigin = 'center center';
-        vid.style.position = 'absolute';
-        vid.style.zIndex = '1';
-        fallbackApplied = true;
-      }
-
-      applyFallback();
-      if (!resizeHandler) {
-        resizeHandler = () => { applyFallback(); };
-        window.addEventListener('resize', resizeHandler);
-      }
-    }
-
-    function tryNext() {
-      if (idx >= candidates.length) {
-        console.warn('No background video found in candidates:', candidates);
-        return;
-      }
-      const src = candidates[idx++];
-      vid.src = src;
-      vid.load();
-
-      function onCanPlay() {
-        cleanup();
-        // Try to play; if autoplay blocked, ensure muted and retry
-        const playPromise = vid.play();
-        if (playPromise && playPromise.catch) {
-          playPromise.catch(() => {
-            try { vid.muted = true; vid.play().catch(()=>{}); } catch(e) {}
-          });
-        }
-        // enforce object-fit and fallback if needed
-        // small timeout to let rendering settle before checking computedStyle
-        setTimeout(ensureVideoCoverFallback, 120);
-        // also try again after metadata available
-        vid.addEventListener('loadedmetadata', ensureVideoCoverFallback, { once: true });
-        console.info('Background video ready from:', src);
-      }
-      function onError() {
-        cleanup();
-        setTimeout(tryNext, 0);
-      }
-      function cleanup() {
-        vid.removeEventListener('canplaythrough', onCanPlay);
-        vid.removeEventListener('error', onError);
-      }
-
-      vid.addEventListener('canplaythrough', onCanPlay, { once: true });
-      vid.addEventListener('error', onError, { once: true });
-    }
-
-    tryNext();
-  })();
-
-});
-
-// Preloader fade on window load — wait for video readiness when present
-window.addEventListener('load', function () {
-  const loader = document.getElementById('preloader');
-  if (!loader) return;
-
-  const vid = document.getElementById('bgVideo');
-  function fadeOut() {
-    loader.style.opacity = '0';
-    setTimeout(() => { loader.style.display = 'none'; }, 500);
+  .service-card {
+    padding: 20px 15px;
   }
-
-  // If there's a bg video and it's not yet in a playable state, wait until it can play through
-  if (vid && typeof vid.readyState === 'number' && vid.readyState < 3) {
-    const timeout = setTimeout(() => { // safety net in case canplaythrough never fires
-      fadeOut();
-    }, 2500);
-    vid.addEventListener('canplaythrough', function onReady() {
-      clearTimeout(timeout);
-      fadeOut();
-      vid.removeEventListener('canplaythrough', onReady);
-    }, { once: true });
-  } else {
-    fadeOut();
+  .contact-box {
+    padding: 25px 20px;
   }
-});
+  .testimonials {
+    font-size: 0.95rem;
+  }
+  .hero video {
+    filter: brightness(1) contrast(1.02) saturate(1.08);
+  }
+  .hero .overlay {
+    background: rgba(2,8,14,0.12);
+  }
+}
+
+/* Preloader styles (moved from index.html) */
+#preloader {
+  position: fixed;
+  background: #050f1c;
+  height: 100vh;
+  width: 100vw;
+  top: 0; left: 0;
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#preloader .spinner {
+  width: 50px;
+  height: 50px;
+  border: 6px solid #06a9ff;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
