@@ -6,6 +6,7 @@ body, html {
   color: #e6f7ff;
   scroll-behavior: smooth;
 }
+
 /* Logo sizing */
 .navbar-brand img {
   height: 44px;
@@ -46,27 +47,29 @@ body, html {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 100%;
-  height: 100%;
+  width: 120%;
+  height: 120%;
   object-fit: cover;
   transform: translate(-50%, -50%);
-  filter: brightness(55%);
+  filter: brightness(0.90) contrast(1.03) saturate(1.06);
+  transition: filter .45s ease, transform .6s ease;
 }
 .hero .overlay {
   position: absolute;
   top: 0; left: 0;
   width: 100%; height: 100%;
-  background: linear-gradient(180deg, rgba(4,24,34,0.7), rgba(6,30,45,0.85));
-  mix-blend-mode: multiply;
-  backdrop-filter: saturate(1.05) contrast(0.95);
+  background: linear-gradient(180deg, rgba(4,24,34,0.24), rgba(6,30,45,0.28));
+  mix-blend-mode: normal;
+  backdrop-filter: saturate(1.02) contrast(0.98);
+  pointer-events: none;
 }
 .hero-content {
   position: relative;
-  z-index: 10;
+  z-index: 20;
   text-align: center;
   top: 40%;
   color: #e6f7ff;
-  text-shadow: 0 6px 18px rgba(2,10,20,0.6);
+  text-shadow: 0 8px 26px rgba(2,10,20,0.45);
   padding: 0 15px;
 }
 .hero h1 {
@@ -328,6 +331,14 @@ footer {
   }
   .testimonials {
     font-size: 0.95rem;
+  }
+  .hero video {
+    filter: brightness(1) contrast(1.02) saturate(1.08);
+    width: 140%;
+    height: 140%;
+  }
+  .hero .overlay {
+    background: rgba(2,8,14,0.12);
   }
 }
 
