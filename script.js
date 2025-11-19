@@ -243,13 +243,75 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   })();
 
+  // Try loading a local background video from common candidate paths and ensure play
+  (function ensureBackgroundVideo() {
+    const vid = document.getElementById('bgVideo');
+    if (!vid) return;
+    const candidates = ['./assets/bg.mp4', './bg.mp4', './assets/videos/bg.mp4'];
+    let idx = 0;
+
+    function tryNext() {
+      if (idx >= candidates.length) {
+        console.warn('No background video found in candidates:', candidates);
+        return;
+      }
+      const src = candidates[idx++];
+      // set src and attempt to load
+      vid.src = src;
+      vid.load();
+
+      function onCanPlay() {
+        cleanup();
+        // Try to play; if autoplay blocked, ensure muted and retry
+        const playPromise = vid.play();
+        if (playPromise && playPromise.catch) {
+          playPromise.catch(() => {
+            try { vid.muted = true; vid.play().catch(()=>{}); } catch(e) {}
+          });
+        }
+        console.info('Background video ready from:', src);
+      }
+      function onError() {
+        cleanup();
+        // try next candidate
+        setTimeout(tryNext, 0);
+      }
+      function cleanup() {
+        vid.removeEventListener('canplaythrough', onCanPlay);
+        vid.removeEventListener('error', onError);
+      }
+
+      vid.addEventListener('canplaythrough', onCanPlay, { once: true });
+      vid.addEventListener('error', onError, { once: true });
+    }
+
+    tryNext();
+  })();
+
 });
 
-// Preloader fade on window load
+// Preloader fade on window load — wait for video readiness when present
 window.addEventListener('load', function () {
   const loader = document.getElementById('preloader');
-  if (loader) {
+  if (!loader) return;
+
+  const vid = document.getElementById('bgVideo');
+  function fadeOut() {
     loader.style.opacity = '0';
     setTimeout(() => { loader.style.display = 'none'; }, 500);
+  }
+
+  // If there's a bg video and it's not yet in a playable state, wait until it can play through
+  if (vid && typeof vid.readyState === 'number' && vid.readyState < 3) {
+    const timeout = setTimeout(() => { // safety net in case canplaythrough never fires
+      fadeOut();
+    }, 2500);
+    vid.addEventListener('canplaythrough', function onReady() {
+      clearTimeout(timeout);
+      fadeOut();
+      vid.removeEventListener('canplaythrough', onReady);
+    }, { once: true });
+  } else {
+    fadeOut();
   }
 });
