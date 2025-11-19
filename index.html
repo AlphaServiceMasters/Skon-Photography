@@ -70,9 +70,16 @@
 
   <!-- Hero Section -->
   <section id="hero" class="hero">
-    <video autoplay muted loop playsinline>
-      <source src="https://cdn.coverr.co/videos/coverr-aerial-view-of-a-photographer-in-the-snow-5170/1080p.mp4" type="video/mp4">
+    <!-- Local background video: tries ./assets/bg.mp4 (keep your bg.mp4 inside ./assets/) -->
+    <video id="bgVideo" class="bg-video" autoplay muted loop playsinline preload="metadata" aria-hidden="true" tabindex="-1" poster="./assets/bg-poster.jpg">
+      <source src="./assets/bg.mp4" type="video/mp4">
+      <!-- Browser will ignore if video not available; JS will attempt alternate paths -->
     </video>
+    <noscript>
+      <div style="background:#05101a;height:55vh;display:flex;align-items:center;justify-content:center;color:#bfefff;">
+        <strong>Enable JavaScript to see the background video</strong>
+      </div>
+    </noscript>
     <div class="overlay"></div>
     <div class="hero-content" data-aos="zoom-in" data-aos-duration="1500">
       <h1>Visual Stories by <span id="typed-words">Skandar</span></h1>
@@ -154,33 +161,33 @@
 
     <div class="row g-4 gallery" data-aos="fade-up" data-aos-delay="150">
       <div class="col-md-4">
-        <a href="./assets/1.webp" class="glightbox" data-gallery="portfolio" aria-label="Open portfolio image 1">
-          <img src="./assets/1.webp" alt="Portfolio image 1" class="img-fluid rounded" loading="lazy" />
+        <a href="./assets/1.png" class="glightbox" data-gallery="portfolio" aria-label="Open portfolio image 1">
+          <img src="./assets/1.png" alt="Portfolio image 1" class="img-fluid rounded" loading="lazy" />
         </a>
       </div>
       <div class="col-md-4">
-        <a href="./assets/2.webp" class="glightbox" data-gallery="portfolio" aria-label="Open portfolio image 2">
-          <img src="./assets/2.webp" alt="Portfolio image 2" class="img-fluid rounded" loading="lazy" />
+        <a href="./assets/2.png" class="glightbox" data-gallery="portfolio" aria-label="Open portfolio image 2">
+          <img src="./assets/2.png" alt="Portfolio image 2" class="img-fluid rounded" loading="lazy" />
         </a>
       </div>
       <div class="col-md-4">
-        <a href="./assets/3.webp" class="glightbox" data-gallery="portfolio" aria-label="Open portfolio image 3">
-          <img src="./assets/3.webp" alt="Portfolio image 3" class="img-fluid rounded" loading="lazy" />
+        <a href="./assets/3.png" class="glightbox" data-gallery="portfolio" aria-label="Open portfolio image 3">
+          <img src="./assets/3.png" alt="Portfolio image 3" class="img-fluid rounded" loading="lazy" />
         </a>
       </div>
       <div class="col-md-4">
-        <a href="./assets/4.webp" class="glightbox" data-gallery="portfolio" aria-label="Open portfolio image 4">
-          <img src="./assets/4.webp" alt="Portfolio image 4" class="img-fluid rounded" loading="lazy" />
+        <a href="./assets/4.png" class="glightbox" data-gallery="portfolio" aria-label="Open portfolio image 4">
+          <img src="./assets/4.png" alt="Portfolio image 4" class="img-fluid rounded" loading="lazy" />
         </a>
       </div>
       <div class="col-md-4">
-        <a href="./assets/5.webp" class="glightbox" data-gallery="portfolio" aria-label="Open portfolio image 5">
-          <img src="./assets/5.webp" alt="Portfolio image 5" class="img-fluid rounded" loading="lazy" />
+        <a href="./assets/5.png" class="glightbox" data-gallery="portfolio" aria-label="Open portfolio image 5">
+          <img src="./assets/5.png" alt="Portfolio image 5" class="img-fluid rounded" loading="lazy" />
         </a>
       </div>
       <div class="col-md-4">
-        <a href="./assets/6.webp" class="glightbox" data-gallery="portfolio" aria-label="Open portfolio image 6">
-          <img src="./assets/6.webp" alt="Portfolio image 6" class="img-fluid rounded" loading="lazy" />
+        <a href="./assets/6.png" class="glightbox" data-gallery="portfolio" aria-label="Open portfolio image 6">
+          <img src="./assets/6.png" alt="Portfolio image 6" class="img-fluid rounded" loading="lazy" />
         </a>
       </div>
     </div>
