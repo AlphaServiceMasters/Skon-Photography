@@ -256,7 +256,6 @@ document.addEventListener('DOMContentLoaded', function () {
         return;
       }
       const src = candidates[idx++];
-      // set src and attempt to load
       vid.src = src;
       vid.load();
 
@@ -269,11 +268,15 @@ document.addEventListener('DOMContentLoaded', function () {
             try { vid.muted = true; vid.play().catch(()=>{}); } catch(e) {}
           });
         }
+        // enforce object-fit and fallback if needed
+        // small timeout to let rendering settle before checking computedStyle
+        setTimeout(ensureVideoCoverFallback, 120);
+        // also try again after metadata available
+        vid.addEventListener('loadedmetadata', ensureVideoCoverFallback, { once: true });
         console.info('Background video ready from:', src);
       }
       function onError() {
         cleanup();
-        // try next candidate
         setTimeout(tryNext, 0);
       }
       function cleanup() {
