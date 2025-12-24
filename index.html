@@ -3,318 +3,283 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Skon Photography | By Skandar Wannan</title>
+  <title>SKON. | Cinematic Photography</title>
 
-  <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <!-- AOS CSS -->
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
-  <!-- GLightbox CSS for gallery -->
   <link href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" rel="stylesheet" />
-  <!-- Swiper CSS (testimonials carousel) -->
   <link href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" rel="stylesheet" />
-  <!-- Poppins Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet" />
-  <!-- site styles (moved from inline) -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  
   <link rel="stylesheet" href="./styles.css" />
-
-  <!-- Gallery: force uniform tile size and crop images consistently -->
-  <style>
-    /* Make each gallery tile the same responsive height and crop images */
-    .gallery a {
-      display: block;
-      overflow: hidden;
-      border-radius: 14px;
-      /* responsive height: min 200px, preferred 30vw, max 380px */
-      height: clamp(200px, 30vw, 380px);
-      box-shadow: 0 10px 30px rgba(3,12,20,0.7);
-      border: 1px solid rgba(255,255,255,0.04);
-    }
-    .gallery img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover; /* crop/center to fill tile */
-      display: block;
-      transition: transform .4s ease;
-    }
-    /* optional hover effect */
-    .gallery a:hover img { transform: scale(1.03); }
-  </style>
-
-  <!-- Add favicon / touch icon (use the attached image saved at assets/logo.png) -->
-  <link rel="icon" href="./assets/logo.png" type="image/png" sizes="32x32" />
-  <link rel="shortcut icon" href="./assets/logo.png" />
-  <link rel="apple-touch-icon" href="./assets/logo.png" />
 </head>
 
 <body>
-  <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+  <div class="cursor-dot"></div>
+  <div class="cursor-outline"></div>
+
+  <nav class="navbar navbar-expand-lg fixed-top">
     <div class="container">
-      <a class="navbar-brand d-flex align-items-center" href="#hero" aria-label="Skon Photography">
-        Skon Photography
+      <a class="navbar-brand hover-trigger" href="#hero">
+        SKON<span style="color:#07a9ff;">.</span>
       </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
+      
+      <button class="navbar-toggler hover-trigger" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+        <span class="bi bi-list" style="color:#fff; font-size: 1.5rem;"></span>
       </button>
+
       <div class="collapse navbar-collapse" id="mainNav">
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-          <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
-          <li class="nav-item"><a class="nav-link" href="#portfolio">Portfolio</a></li>
-          <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
-          <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+          <li class="nav-item"><a class="nav-link hover-trigger" href="#services">Services</a></li>
+          <li class="nav-item"><a class="nav-link hover-trigger" href="#portfolio">Work</a></li>
+          <li class="nav-item"><a class="nav-link hover-trigger" href="#about">Artist</a></li>
+          <li class="nav-item"><a class="nav-link btn-book hover-trigger" href="#contact">Book Now</a></li>
         </ul>
       </div>
     </div>
   </nav>
 
-  <!-- Hero Section -->
   <section id="hero" class="hero">
-    <!-- Local background video: tries ./assets/bg.mp4 (keep your bg.mp4 inside ./assets/) -->
-    <video id="bgVideo" class="bg-video" autoplay muted loop playsinline preload="metadata" aria-hidden="true" tabindex="-1" poster="./assets/bg-poster.jpg">
+    <video id="bgVideo" class="bg-video" autoplay muted loop playsinline poster="./assets/bg-poster.jpg">
       <source src="./assets/bg.mp4" type="video/mp4">
-      <!-- Browser will ignore if video not available; JS will attempt alternate paths -->
     </video>
-    <noscript>
-      <div style="background:#05101a;height:55vh;display:flex;align-items:center;justify-content:center;color:#bfefff;">
-        <strong>Enable JavaScript to see the background video</strong>
-      </div>
-    </noscript>
     <div class="overlay"></div>
-    <div class="hero-content" data-aos="zoom-in" data-aos-duration="1500">
-      <h1>Visual Stories by <span id="typed-words">Skandar</span></h1>
-      <p>Weddings, portraits, and events captured with a cinematic touch, turning your real moments into timeless frames.</p>
-      <div class="hero-cta mt-4">
-        <a href="#portfolio" class="btn btn-outline-light btn-main">View Portfolio</a>
-        <a href="#contact" class="btn btn-outline-light btn-main">Book a Session</a>
+    
+    <div class="hero-content" data-aos="fade-up" data-aos-duration="1200">
+      <p class="hero-subtitle">Tunisia Based Photographer</p>
+      <h1>Capturing The <br><span id="typed-words"></span></h1>
+      
+      <div class="scroll-indicator">
+        <div class="mouse">
+          <div class="wheel"></div>
+        </div>
+        <div class="arrow-scroll"><span></span><span></span><span></span></div>
       </div>
     </div>
   </section>
 
-  <!-- Services Section -->
-  <section id="services" class="container py-5">
-    <div class="text-center mb-4">
-      <p class="section-title" data-aos="fade-right">Services</p>
-      <h2 class="section-heading" data-aos="fade-right" data-aos-delay="150">What Skon Offers</h2>
-      <p class="text-muted small" style="color:#b7d8f5 !important;" data-aos="fade-right" data-aos-delay="250">
-        Flexible packages for couples, families, brands, and events—customized to fit your story and your budget.
-      </p>
-    </div>
+  <section id="services" class="section-padding">
+    <div class="container">
+      <div class="row mb-5 align-items-end">
+        <div class="col-md-6" data-aos="fade-right">
+          <h2 class="section-heading">My Services</h2>
+        </div>
+        <div class="col-md-6 text-md-end" data-aos="fade-left">
+          <p class="text-muted">Tailored packages for your unique moments.</p>
+        </div>
+      </div>
 
-    <div class="row g-4">
-      <div class="col-md-4" data-aos="zoom-in">
-        <div class="service-card">
-          <div class="service-icon"><i class="bi bi-heart"></i></div>
-          <h4>Wedding Story Package</h4>
-          <p class="mt-2">Full-day wedding coverage from getting ready to the last dance, with high-resolution images ready to share and print.</p>
-          <div class="mt-3">
-            <span class="badge-tag">Couples</span>
-            <span class="badge-tag">Full day</span>
+      <div class="row g-4">
+        <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+          <div class="service-card hover-trigger">
+            <div class="icon-box"><i class="bi bi-heart-fill"></i></div>
+            <h3>Weddings</h3>
+            <p>Cinematic coverage of your big day. From raw emotions to the grand exit.</p>
+            <ul class="service-list">
+              <li>Full Day Coverage</li>
+              <li>Drone Shots</li>
+              <li>Signature Editing</li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+          <div class="service-card hover-trigger">
+            <div class="icon-box"><i class="bi bi-person-fill"></i></div>
+            <h3>Portraits</h3>
+            <p>Editorial style portraits for individuals, couples, or personal branding.</p>
+            <ul class="service-list">
+              <li>Outdoor / Studio</li>
+              <li>High-End Retouching</li>
+              <li>Social Media Edits</li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+          <div class="service-card hover-trigger">
+            <div class="icon-box"><i class="bi bi-camera-reels-fill"></i></div>
+            <h3>Commercial</h3>
+            <p>Elevate your brand with professional imagery for products and events.</p>
+            <ul class="service-list">
+              <li>Event Coverage</li>
+              <li>Product Photography</li>
+              <li>Promotional Reels</li>
+            </ul>
           </div>
         </div>
       </div>
-
-      <div class="col-md-4" data-aos="zoom-in" data-aos-delay="150">
-        <div class="service-card">
-          <div class="service-icon"><i class="bi bi-person"></i></div>
-          <h4>Portrait & Lifestyle</h4>
-          <p class="mt-2">Solo, couple, or family sessions—outdoor, studio-style, or at home. Ideal for social media and personal branding.</p>
-          <div class="mt-3">
-            <span class="badge-tag">Portrait</span>
-            <span class="badge-tag">Lifestyle</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-4" data-aos="zoom-in" data-aos-delay="300">
-        <div class="service-card">
-          <div class="service-icon"><i class="bi bi-camera-reels"></i></div>
-          <h4>Events & Corporate</h4>
-          <p class="mt-2">Professional coverage for private events, launches, and corporate gatherings with clean, modern visuals.</p>
-          <div class="mt-3">
-            <span class="badge-tag">Events</span>
-            <span class="badge-tag">Corporate</span>
-          </div>
-        </div>
-      </div>
     </div>
   </section>
 
-  <!-- Parallax Section -->
-  <section class="my-5">
-    <div class="parallax" data-aos="zoom-in">
-      <div class="parallax-overlay"></div>
-      <div class="parallax-inner">
-        <h3 class="mb-3">Light, emotion, and timing.</h3>
-        <p>Every frame is crafted to feel like a memory you can step back into—years from now.</p>
+  <section id="portfolio" class="section-padding bg-darker">
+    <div class="container-fluid px-lg-5">
+      <div class="text-center mb-5">
+        <span class="sub-title">Selected Works</span>
+        <h2 class="section-heading" data-aos="fade-up">Visual Diary</h2>
       </div>
-    </div>
-  </section>
 
-  <!-- Portfolio Section -->
-  <section id="portfolio" class="container py-5">
-    <div class="text-center mb-4">
-      <p class="section-title" data-aos="fade-left">Portfolio</p>
-      <h2 class="section-heading" data-aos="fade-left" data-aos-delay="120">Selected Frames</h2>
-      <p class="small" style="color:#b7d8f5 !important;" data-aos="fade-left" data-aos-delay="220">A glimpse into weddings, portraits, and events documented by Skon Photography.</p>
-    </div>
-
-    <div class="row g-4 gallery" data-aos="fade-up" data-aos-delay="150">
-      <div class="col-md-4">
-        <a href="./assets/1.png" class="glightbox" data-gallery="portfolio" aria-label="Open portfolio image 1">
-          <img src="./assets/1.png" alt="Portfolio image 1" class="img-fluid rounded" loading="lazy" />
-        </a>
-      </div>
-      <div class="col-md-4">
-        <a href="./assets/2.png" class="glightbox" data-gallery="portfolio" aria-label="Open portfolio image 2">
-          <img src="./assets/2.png" alt="Portfolio image 2" class="img-fluid rounded" loading="lazy" />
-        </a>
-      </div>
-      <div class="col-md-4">
-        <a href="./assets/3.png" class="glightbox" data-gallery="portfolio" aria-label="Open portfolio image 3">
-          <img src="./assets/3.png" alt="Portfolio image 3" class="img-fluid rounded" loading="lazy" />
-        </a>
-      </div>
-      <div class="col-md-4">
-        <a href="./assets/4.png" class="glightbox" data-gallery="portfolio" aria-label="Open portfolio image 4">
-          <img src="./assets/4.png" alt="Portfolio image 4" class="img-fluid rounded" loading="lazy" />
-        </a>
-      </div>
-      <div class="col-md-4">
-        <a href="./assets/5.png" class="glightbox" data-gallery="portfolio" aria-label="Open portfolio image 5">
-          <img src="./assets/5.png" alt="Portfolio image 5" class="img-fluid rounded" loading="lazy" />
-        </a>
-      </div>
-      <div class="col-md-4">
-        <a href="./assets/6.png" class="glightbox" data-gallery="portfolio" aria-label="Open portfolio image 6">
-          <img src="./assets/6.png" alt="Portfolio image 6" class="img-fluid rounded" loading="lazy" />
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- About Section -->
-  <section id="about" class="container py-5">
-    <div class="row justify-content-center">
-      <div class="col-lg-8">
-        <div class="about-box" data-aos="fade-up">
-          <p class="section-title mb-2">About Skon</p>
-          <h2 class="section-heading mb-3">
-            Behind the lens: <span class="about-highlight">Skandar Wanan</span>
-          </h2>
-          <p>
-            Skandar is a freelance photographer based in Tunisia, focusing on real, unscripted emotions and cinematic light.
-            Whether it is a wedding day, a portrait session, or a private event, his goal is to make every image feel honest and alive.
-          </p>
-          <p>
-            Skon Photography blends storytelling with clean, modern editing—so your photos look good today and still feel timeless
-            years from now, on screens or in printed albums.
-          </p>
+      <div class="row g-3 gallery" data-aos="fade-up">
+        <div class="col-md-4 col-sm-6">
+          <a href="./assets/1.png" class="gallery-item hover-trigger glightbox">
+            <img src="./assets/1.png" alt="Portfolio" loading="lazy">
+            <div class="gallery-overlay">
+              <span>View Project</span>
+            </div>
+          </a>
         </div>
-        <!-- Testimonials as a Swiper carousel -->
-        <div class="swiper" aria-label="Client testimonials carousel" data-aos="fade-up" data-aos-delay="300">
-          <div class="swiper-wrapper">
-            <div class="swiper-slide">
-              <div class="testimonials" role="region" aria-label="Client testimonial — Prague, Czechia">
-                <p>"Skandar captured our wedding with warmth and clarity — every image feels like a moment we can step back into."</p>
-                <div class="testimonial-author">- Anna , Prague</div>
-              </div>
+        <div class="col-md-4 col-sm-6">
+          <a href="./assets/2.png" class="gallery-item hover-trigger glightbox">
+            <img src="./assets/2.png" alt="Portfolio" loading="lazy">
+            <div class="gallery-overlay">
+              <span>View Project</span>
             </div>
-            <div class="swiper-slide">
-              <div class="testimonials" role="region" aria-label="Client testimonial — Warsaw, Poland">
-                <p>"Professional, punctual and creative. The portrait session results exceeded our expectations."</p>
-                <div class="testimonial-author">- Michał , Warsaw</div>
-              </div>
+          </a>
+        </div>
+        <div class="col-md-4 col-sm-6">
+          <a href="./assets/3.png" class="gallery-item hover-trigger glightbox">
+            <img src="./assets/3.png" alt="Portfolio" loading="lazy">
+            <div class="gallery-overlay">
+              <span>View Project</span>
             </div>
-            <div class="swiper-slide">
-              <div class="testimonials" role="region" aria-label="Client testimonial — Berlin, Germany">
-                <p>"We loved how natural and cinematic the photos turned out. Highly recommended for couples and families."</p>
-                <div class="testimonial-author">- Lena , Berlin</div>
-              </div>
+          </a>
+        </div>
+        <div class="col-md-4 col-sm-6">
+          <a href="./assets/4.png" class="gallery-item hover-trigger glightbox">
+            <img src="./assets/4.png" alt="Portfolio" loading="lazy">
+            <div class="gallery-overlay">
+              <span>View Project</span>
             </div>
-            <div class="swiper-slide">
-              <div class="testimonials" role="region" aria-label="Client testimonial — Wrocław, Poland">
-                <p>"Great communication and beautiful results — our family album is now full of memories we will always cherish."</p>
-                <div class="testimonial-author">- Katarzyna , Wrocław</div>
-              </div>
+          </a>
+        </div>
+        <div class="col-md-4 col-sm-6">
+          <a href="./assets/5.png" class="gallery-item hover-trigger glightbox">
+            <img src="./assets/5.png" alt="Portfolio" loading="lazy">
+            <div class="gallery-overlay">
+              <span>View Project</span>
             </div>
-          </div>
-          <div class="swiper-pagination" aria-hidden="false"></div>
-          <div class="swiper-button-prev" aria-hidden="false" tabindex="0" role="button" aria-label="Previous testimonial"></div>
-          <div class="swiper-button-next" aria-hidden="false" tabindex="0" role="button" aria-label="Next testimonial"></div>
+          </a>
+        </div>
+        <div class="col-md-4 col-sm-6">
+          <a href="./assets/6.png" class="gallery-item hover-trigger glightbox">
+            <img src="./assets/6.png" alt="Portfolio" loading="lazy">
+            <div class="gallery-overlay">
+              <span>View Project</span>
+            </div>
+          </a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Contact Section -->
-  <section id="contact" class="container py-5">
-    <div class="text-center mb-4">
-      <p class="section-title" data-aos="fade-up">Contact</p>
-      <h2 class="section-heading" data-aos="fade-up" data-aos-delay="120">Book Skon Photography</h2>
-      <p class="small" style="color:#b7d8f5 !important;" data-aos="fade-up" data-aos-delay="220">
-        Share your date, location, and what you have in mind. You will get a tailored answer as soon as possible.
-      </p>
-    </div>
-
-    <div class="contact-box mx-auto" style="max-width: 650px;" data-aos="zoom-in">
-      <form id="bookingForm">
-        <label for="name">Name<span aria-hidden="true" style="color:#07a9ff;">*</span></label>
-        <input type="text" id="name" aria-required="true" placeholder="Your full name" required />
-        
-        <label for="phone">Phone Number (WhatsApp)<span aria-hidden="true" style="color:#07a9ff;">*</span></label>
-        <input type="tel" id="phone" aria-required="true" placeholder="+216 XX XXX XXX" pattern="\+216\s?\d{2}\s?\d{3}\s?\d{3}" required />
-        
-        <label for="service">Event Type<span aria-hidden="true" style="color:#07a9ff;">*</span></label>
-        <select id="service" aria-required="true" required>
-          <option value="" disabled selected>Select session</option>
-          <option>Wedding</option>
-          <option>Portrait</option>
-          <option>Event</option>
-          <option>Other</option>
-        </select>
-        <!-- shown only when 'Other' is selected -->
-        <input type="text" id="serviceOther" aria-label="Please specify other service" placeholder="Please specify (e.g. product shoot, editorial, etc.)" style="display:none; margin-top:8px;" />
-        
-        <label for="notes">Additional Notes</label>
-        <textarea id="notes" rows="3" placeholder="Any special requests or notes"></textarea>
-        
-        <button type="submit" aria-label="Send booking request via WhatsApp">Send Request via WhatsApp</button>
-      </form>
+  <section id="about" class="section-padding">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-5 mb-4 mb-lg-0" data-aos="fade-right">
+            <div class="about-text-block">
+                <h2 class="display-4 font-serif">Hello, I'm Skandar.</h2>
+                <div class="divider"></div>
+                <p class="lead text-white">Visual Storyteller based in Tunisia.</p>
+                <p class="text-muted">
+                    My approach is simple: I chase the light and the honest moments. 
+                    Photography for me isn't just about the camera, it's about the connection.
+                </p>
+                <div class="stats d-flex mt-4 gap-4">
+                    <div>
+                        <h3 class="fw-bold text-primary">5+</h3>
+                        <span class="small text-muted">Years Exp.</span>
+                    </div>
+                    <div>
+                        <h3 class="fw-bold text-primary">100+</h3>
+                        <span class="small text-muted">Happy Clients</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 offset-lg-1" data-aos="fade-left">
+             <div class="swiper testimonial-slider">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <div class="review-card">
+                            <i class="bi bi-quote quote-icon"></i>
+                            <p>"The photos are absolutely breathtaking. Skandar has a true gift for capturing emotion."</p>
+                            <h5>- Anna, Prague</h5>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="review-card">
+                            <i class="bi bi-quote quote-icon"></i>
+                            <p>"Professional and creative. The best photographer we dealt with in Tunisia."</p>
+                            <h5>- Ahmed, Tunis</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-pagination"></div>
+             </div>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- Back to Top Button -->
-  <button id="backToTopBtn" aria-label="Back to top" title="Back to top">&#8679;</button>
-
-  <!-- Footer -->
-  <footer>
-    © 2025 Skon Photography — All Rights Reserved<br />
-    <div class="social-links" role="contentinfo">
-      <a href="https://instagram.com/skon_photography" target="_blank" aria-label="Instagram">
-        <svg fill="#42a9ff" aria-hidden="true" focusable="false" width="24" height="24" viewBox="0 0 24 24">
-          <path d="M7.75 2h8.5A5.75 5.75 0 0122 7.75v8.5A5.75 5.75 0 0116.25 22h-8.5A5.75 5.75 0 012 16.25v-8.5A5.75 5.75 0 017.75 2zm0 1.5A4.25 4.25 0 003.5 7.75v8.5A4.25 4.25 0 007.75 20.5h8.5a4.25 4.25 0 004.25-4.25v-8.5A4.25 4.25 0 0016.25 3.5h-8.5zM12 7a5 5 0 110 10 5 5 0 010-10zm0 1.5a3.5 3.5 0 100 7 3.5 3.5 0 000-7zm5-1.75a1.25 1.25 0 11-2.5 0 1.25 1.25 0 012.5 0z"/>
-        </svg>
-      </a>
-      <a href="https://wa.me/+21624073598" target="_blank" aria-label="WhatsApp">
-        <svg fill="#42a9ff" aria-hidden="true" focusable="false" width="24" height="24" viewBox="0 0 24 24">
-          <path d="M20.52 3.48a11.986 11.986 0 00-17 16.97L3 21l3.61-1a11.9 11.9 0 005.06 1.27c6.62 0 12-5.37 12-12a11.9 11.9 0 00-3.15-8.79zm-8.53 15.58a9.39 9.39 0 01-5.1-1.39l-.36-.22-3.42.9.91-3.34-.24-.34a9.46 9.46 0 0116.22-9.02 9.408 9.408 0 01-7.01 13.11zm3.65-4.99c-.2-.1-1.18-.58-1.36-.65-.18-.07-.31-.1-.44.1-.12.2-.46.65-.56.78-.1.12-.2.14-.38.05-.18-.1-.76-.28-1.45-.89-.54-.48-.9-1.08-1.01-1.28-.11-.22-.01-.34.08-.45.08-.07.18-.18.27-.28.1-.1.13-.18.2-.3.07-.12.03-.23-.02-.33-.05-.1-.44-1.06-.6-1.46-.16-.4-.32-.35-.44-.35-.11 0-.24 0-.37 0-.13 0-.33.05-.5.23-.18.18-.68.66-.68 1.6 0 .94.69 1.85.78 1.98.09.12 1.35 2.05 3.27 2.87.46.2.82.32 1.1.41.46.15.88.12 1.21.07.37-.06 1.18-.48 1.35-.95.18-.47.18-.87.12-.95-.06-.07-.20-.12-.38-.21z"/>
-        </svg>
-      </a>
+  <section id="contact" class="section-padding pb-0">
+    <div class="container">
+        <div class="contact-wrapper" data-aos="zoom-in">
+            <div class="text-center mb-5">
+                <h2 class="section-heading">Let's Create Magic</h2>
+                <p class="text-muted">Tell me about your project or event.</p>
+            </div>
+            
+            <form id="bookingForm" class="pro-form">
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <div class="input-group-pro">
+                            <input type="text" id="name" required placeholder=" ">
+                            <label>Your Name</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-group-pro">
+                            <select id="service" required>
+                                <option value="" disabled selected></option>
+                                <option>Wedding Photography</option>
+                                <option>Portrait Session</option>
+                                <option>Commercial / Brand</option>
+                                <option>Other</option>
+                            </select>
+                            <label>Interested In</label>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="input-group-pro">
+                            <textarea id="notes" rows="2" placeholder=" "></textarea>
+                            <label>Tell me more (Date, Location...)</label>
+                        </div>
+                    </div>
+                    <div class="col-12 text-center mt-4">
+                        <button type="submit" class="btn-submit hover-trigger">
+                            <span>Send via WhatsApp</span>
+                            <i class="bi bi-whatsapp ms-2"></i>
+                        </button>
+                    </div>
+                </div>
+                <input type="text" id="serviceOther" style="display:none;">
+            </form>
+        </div>
     </div>
-  </footer>
+    
+    <footer class="mt-5 py-4 text-center border-top border-secondary border-opacity-10">
+        <div class="socials mb-3">
+            <a href="https://instagram.com/skon_photography" class="hover-trigger me-3"><i class="bi bi-instagram"></i></a>
+            <a href="https://wa.me/+21624073598" class="hover-trigger"><i class="bi bi-whatsapp"></i></a>
+        </div>
+        <p class="small text-muted mb-0">© 2025 SKON Photography. Made with <i class="bi bi-heart-fill text-danger"></i> in Tunisia.</p>
+    </footer>
+  </section>
 
-  <!-- External scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js"></script>
-
-  <!-- main site script (moved from inline) -->
   <script src="./script.js"></script>
-
-  <!-- Optional: Bootstrap Icons -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 </body>
 </html>

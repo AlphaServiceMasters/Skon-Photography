@@ -1,341 +1,88 @@
-// Initialize UI after DOM ready
 document.addEventListener('DOMContentLoaded', function () {
-  // Initialize AOS
-  if (window.AOS) AOS.init({ once: true, duration: 900 });
+  
+  // 1. Initialize Libraries
+  if (window.AOS) AOS.init({ once: true, duration: 1000, offset: 50 });
+  if (window.Typed) {
+    new Typed('#typed-words', {
+      strings: ['Emotions.', 'Stories.', 'Moments.', 'Love.'],
+      typeSpeed: 80, backSpeed: 50, backDelay: 2000, loop: true, showCursor: false
+    });
+  }
+  if (window.Swiper) {
+    new Swiper('.testimonial-slider', {
+      loop: true,
+      autoplay: { delay: 4000 },
+      pagination: { el: '.swiper-pagination', clickable: true },
+    });
+  }
+  try {
+    if (typeof GLightbox === 'function') GLightbox({ selector: '.glightbox' });
+  } catch (e) {}
 
-  // Form submission -> WhatsApp
+  // 2. Custom Cursor Logic
+  const cursorDot = document.querySelector('.cursor-dot');
+  const cursorOutline = document.querySelector('.cursor-outline');
+  
+  window.addEventListener('mousemove', function(e) {
+    const posX = e.clientX;
+    const posY = e.clientY;
+    
+    // Dot follows instantly
+    cursorDot.style.left = `${posX}px`;
+    cursorDot.style.top = `${posY}px`;
+    
+    // Outline follows with delay (smooth)
+    cursorOutline.animate({
+      left: `${posX}px`,
+      top: `${posY}px`
+    }, { duration: 500, fill: "forwards" });
+  });
+
+  // Hover effect for links
+  const triggers = document.querySelectorAll('.hover-trigger, a, button, input, textarea');
+  triggers.forEach(link => {
+    link.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
+    link.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
+  });
+
+  // 3. Navbar Scroll Effect
+  const navbar = document.querySelector('.navbar');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 50) navbar.classList.add('scrolled');
+    else navbar.classList.remove('scrolled');
+  });
+
+  // 4. WhatsApp Form Logic (Same logic, cleaner code)
   const bookingForm = document.getElementById('bookingForm');
   if (bookingForm) {
     bookingForm.addEventListener('submit', function (e) {
       e.preventDefault();
-      const name = (document.getElementById('name') || {}).value?.trim() || '';
-      const phone = (document.getElementById('phone') || {}).value?.trim() || '';
-      let service = (document.getElementById('service') || {}).value || '';
-      const serviceOther = (document.getElementById('serviceOther') || {}).value?.trim() || '';
-      const notes = (document.getElementById('notes') || {}).value?.trim() || '';
+      const name = document.getElementById('name').value.trim();
+      let service = document.getElementById('service').value;
+      const notes = document.getElementById('notes').value.trim();
 
-      if (!name || !phone || !service) {
-        alert('Please fill in all required fields!');
-        return false;
-      }
-      if (service === 'Other') {
-        if (!serviceOther) {
-          alert('Please specify the event type when selecting "Other".');
-          return false;
-        }
-        service = serviceOther;
-      }
-
-      let message = `Hello Skon Photography,\nMy name is ${name}. I would like to book a ${service} session.\nMy phone number is ${phone}.`;
-      if (notes) message += `\nAdditional notes: ${notes}`;
-
-      const whatsappNumber = "+216XXXXXXXX"; // Replace with actual number, digits only
-      const digits = whatsappNumber.replace(/\D/g, '');
-      const encoded = encodeURIComponent(message);
-      window.open(`https://wa.me/${digits}?text=${encoded}`, '_blank');
-      return false;
-    });
-  }
-
-  // Ensure gallery images are visible and use lazy loading; provide inline SVG fallback if remote fails
-  (function ensureGalleryImages() {
-    const placeholder = "data:image/svg+xml;utf8," +
-      encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 140">' +
-        '<rect width="100%" height="100%" fill="#05101a"/>' +
-        '<g fill="#06a9ff" opacity="0.95"><rect x="18" y="18" width="204" height="104" rx="12"/></g>' +
-        '<text x="50%" y="52%" dominant-baseline="middle" text-anchor="middle" fill="#00121a" font-family="Poppins, Arial, sans-serif" font-size="18">Image</text>' +
-      '</svg>');
-
-    const exts = ['jpg','jpeg','png','webp'];
-
-    // build a set of candidate URLs from an input path (adds common folders and extensions)
-    function buildCandidates(path) {
-      const set = new Set();
-      if (!path) return set;
-      const clean = path.replace(/^\.\//,'').replace(/^\/+/,'')
-      // push original variations
-      set.add(path);
-      set.add('./' + clean);
-      set.add('/' + clean);
-
-      // derive name and dir
-      const parts = clean.split('/');
-      const filename = parts.pop();
-      const dir = parts.join('/');
-      const m = filename.match(/^(.+?)(?:\.[a-z0-9]+)?$/i);
-      const name = m ? m[1] : filename;
-
-      exts.forEach(ext => {
-        const candidate = (dir ? `${dir}/` : '') + `${name}.${ext}`;
-        set.add(candidate);
-        set.add('./' + candidate);
-        set.add('/' + candidate);
-        set.add('./assets/' + `${name}.${ext}`);
-        set.add('./assets/images/' + `${name}.${ext}`);
-        set.add('./assets/img/' + `${name}.${ext}`);
-      });
-
-      // also try lowercase filename variants
-      set.forEach(s => set.add(s.toLowerCase()));
-      return set;
-    }
-
-    document.querySelectorAll('.gallery').forEach(g => {
-      g.querySelectorAll('a').forEach(a => {
-        const img = a.querySelector('img');
-
-        if (!img) {
-          if (!a.getAttribute('href')) a.setAttribute('href', placeholder);
-          return;
-        }
-
-        if (!img.hasAttribute('loading')) img.setAttribute('loading', 'lazy');
-        if (!img.getAttribute('alt')) img.setAttribute('alt', 'Portfolio image');
-
-        const origSrc = (img.getAttribute('src') || '').trim();
-        const origHref = (a.getAttribute('href') || '').trim();
-
-        // create ordered array of candidates: prefer original src/href first
-        const ordered = [];
-        const addSet = (s) => s.forEach(u => { if (!ordered.includes(u)) ordered.push(u); });
-
-        if (origSrc) ordered.push(origSrc);
-        if (origHref && !ordered.includes(origHref)) ordered.push(origHref);
-
-        addSet(buildCandidates(origSrc));
-        addSet(buildCandidates(origHref));
-
-        // final fallback candidates: placeholder only after trying others
-        const tried = [];
-        let loaded = false;
-        let idx = 0;
-
-        function tryNext() {
-          if (loaded || idx >= ordered.length) {
-            if (!loaded) {
-              img.src = placeholder;
-              a.href = placeholder;
-              console.warn('All gallery candidates failed for element; applied placeholder. Tried:', tried);
-            }
-            return;
-          }
-
-          const candidate = ordered[idx++];
-          if (!candidate) return tryNext();
-          tried.push(candidate);
-
-          const tester = new Image();
-          tester.onload = function () {
-            if (loaded) return;
-            loaded = true;
-            // set image and anchor to the working file
-            img.src = candidate;
-            a.href = candidate;
-            console.info('Gallery image loaded from candidate:', candidate);
-          };
-          tester.onerror = function () {
-            // try next candidate
-            setTimeout(tryNext, 0);
-          };
-          // start load attempt (browser will attempt to fetch)
-          tester.src = candidate;
-        }
-
-        // start attempts (do not block UI)
-        tryNext();
-
-        // keep an onerror handler as last resort
-        img.onerror = function () {
-          if (this.src !== placeholder) {
-            console.warn('Final <img> error for', this.src, '- applying placeholder.');
-            this.src = placeholder;
-            a.href = placeholder;
-          }
-        };
-      });
-    });
-  })();
-
-  // Verify local logo exists and refresh favicon + navbar logo to bypass cache if needed
-  (async function verifyAndRefreshLogo() {
-    const logoPath = './assets/logo.png';
-    const logoImg = document.getElementById('siteLogo');
-    const updateFavicon = (href) => {
-      const rels = ['icon', 'shortcut icon', 'apple-touch-icon'];
-      rels.forEach(r => {
-        let link = document.querySelector(`link[rel="${r}"]`);
-        if (!link) {
-          link = document.createElement('link');
-          link.rel = r;
-          document.head.appendChild(link);
-        }
-        // set href (no cache-buster on file://)
-        try {
-          if (location && location.protocol && location.protocol.startsWith('http')) {
-            link.href = `${href}?cb=${Date.now()}`;
-          } else {
-            link.href = href;
-          }
-        } catch (_) {
-          link.href = href;
-        }
-      });
-    };
-
-    // Use Image() loader rather than fetch HEAD (safer for file:// and avoids CORS/HEAD issues)
-    await new Promise(resolve => {
-      try {
-        const img = new Image();
-        img.onload = function () {
-          try {
-            const href = (location && location.protocol && location.protocol.startsWith('http')) ? `${logoPath}` : logoPath;
-            if (logoImg) {
-              // update navbar logo if present
-              if (location && location.protocol && location.protocol.startsWith('http')) {
-                logoImg.src = `${logoPath}?cb=${Date.now()}`;
-              } else {
-                logoImg.src = logoPath;
-              }
-            }
-            updateFavicon(logoPath);
-            console.info('logo.png loaded and favicon updated.');
-          } catch (e) { /* ignore */ }
-          resolve();
-        };
-        img.onerror = function (err) {
-          console.warn('Could not load ./assets/logo.png. Please ensure the file exists and is accessible.', err || '');
-          resolve();
-        };
-        img.src = logoPath;
-      } catch (err) {
-        console.warn('Logo check failed with exception', err);
-        resolve();
-      }
-    });
-
-    // Finally initialize GLightbox now (after gallery images ensured)
-    try {
-      if (typeof GLightbox === 'function') window._glightbox = GLightbox({ selector: '.glightbox' });
-    } catch (e) { /* ignore */ }
-
-    // initialize Typed and Swiper if present (safe re-init)
-    if (window.Typed) {
-      try {
-        new Typed('#typed-words', {
-          strings: ['Skandar','Skon Photography','Skandar Wanan'],
-          typeSpeed: 60, backSpeed: 40, backDelay: 2000, loop: true, showCursor: true, cursorChar: '|'
-        });
-      } catch (e) {}
-    }
-    if (window.Swiper) {
-      try {
-        new Swiper('.swiper', {
-          loop: true,
-          autoplay: { delay: 4500, disableOnInteraction: false },
-          pagination: { el: '.swiper-pagination', clickable: true },
-          navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
-          a11y: { enabled: true },
-          slidesPerView: 1,
-          spaceBetween: 10,
-          speed: 700
-        });
-      } catch (e) {}
-    }
-  })();
-
-  // Try loading a local background video from common candidate paths and ensure play
-  (function ensureBackgroundVideo() {
-    const vid = document.getElementById('bgVideo');
-    if (!vid) return;
-
-    // --- Added: fallback function so calls to ensureVideoCoverFallback won't fail ---
-    function ensureVideoCoverFallback() {
-      try {
-        // enforce absolute centering and cover behaviour (defensive, in case CSS isn't enough)
-        vid.style.position = 'absolute';
-        vid.style.top = '50%';
-        vid.style.left = '50%';
-        vid.style.transform = 'translate(-50%, -50%)';
-        vid.style.objectFit = 'cover';
-        vid.style.objectPosition = 'center center';
-        vid.style.width = 'auto';
-        vid.style.height = 'auto';
-        vid.style.minWidth = '100%';
-        vid.style.minHeight = '100%';
-      } catch (e) {
-        // silently ignore if styling fails (older browsers)
-      }
-    }
-    // ------------------------------------------------------------------------------
-
-    const candidates = ['./assets/bg.mp4', './bg.mp4', './assets/videos/bg.mp4'];
-    let idx = 0;
-
-    function tryNext() {
-      if (idx >= candidates.length) {
-        console.warn('No background video found in candidates:', candidates);
+      if (!name || !service) {
+        alert('Please fill in your name and service.');
         return;
       }
-      const src = candidates[idx++];
-      vid.src = src;
-      vid.load();
 
-      function onCanPlay() {
-        cleanup();
-        // Try to play; if autoplay blocked, ensure muted and retry
-        const playPromise = vid.play();
-        if (playPromise && playPromise.catch) {
-          playPromise.catch(() => {
-            try { vid.muted = true; vid.play().catch(()=>{}); } catch(e) {}
-          });
-        }
-        // enforce object-fit and fallback if needed
-        // small timeout to let rendering settle before checking computedStyle
-        setTimeout(ensureVideoCoverFallback, 120);
-        // also try again after metadata available
-        vid.addEventListener('loadedmetadata', ensureVideoCoverFallback, { once: true });
-        console.info('Background video ready from:', src);
-      }
-      function onError() {
-        cleanup();
-        setTimeout(tryNext, 0);
-      }
-      function cleanup() {
-        vid.removeEventListener('canplaythrough', onCanPlay);
-        vid.removeEventListener('error', onError);
-      }
+      let message = `*New Booking Request*\n\nName: ${name}\nService: ${service}`;
+      if (notes) message += `\nNotes: ${notes}`;
 
-      vid.addEventListener('canplaythrough', onCanPlay, { once: true });
-      vid.addEventListener('error', onError, { once: true });
-    }
-
-    tryNext();
-  })();
-
+      const whatsappNumber = "21624073598"; // No + needed for link usually, but cleaner this way
+      const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+      window.open(url, '_blank');
+    });
+  }
 });
 
-// Preloader fade on window load — wait for video readiness when present
+// Preloader fade (Optional if you still have the preloader div in HTML)
 window.addEventListener('load', function () {
   const loader = document.getElementById('preloader');
-  if (!loader) return;
-
-  const vid = document.getElementById('bgVideo');
-  function fadeOut() {
-    loader.style.opacity = '0';
-    setTimeout(() => { loader.style.display = 'none'; }, 500);
-  }
-
-  // If there's a bg video and it's not yet in a playable state, wait until it can play through
-  if (vid && typeof vid.readyState === 'number' && vid.readyState < 3) {
-    const timeout = setTimeout(() => { // safety net in case canplaythrough never fires
-      fadeOut();
-    }, 2500);
-    vid.addEventListener('canplaythrough', function onReady() {
-      clearTimeout(timeout);
-      fadeOut();
-      vid.removeEventListener('canplaythrough', onReady);
-    }, { once: true });
-  } else {
-    fadeOut();
+  if (loader) {
+    setTimeout(() => {
+        loader.style.opacity = '0';
+        setTimeout(() => loader.remove(), 500);
+    }, 500);
   }
 });
